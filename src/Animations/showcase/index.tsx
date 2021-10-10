@@ -1,4 +1,5 @@
 import { FC } from "react";
+import { CoinWarWaitShowcase } from "./CoinWarWaitShowcase";
 import { RenouvArtWaitShowcase } from "./RenouvArtWaitShowcase";
 
 export const Showcase: FC<{ description: string }> = ({
@@ -23,6 +24,7 @@ export const AnimationsShowcase = () => {
         Click on the components you want to see
       </h2>
       <RenouvArtWaitShowcase />
+      <CoinWarWaitShowcase />
     </>
   );
 };

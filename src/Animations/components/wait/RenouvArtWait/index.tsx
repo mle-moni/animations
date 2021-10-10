@@ -1,9 +1,10 @@
-import { useEffect, useRef } from "react";
+import { CSSProperties, useEffect, useRef } from "react";
 import { RenouvArtLogic } from "./RenouvArtWaitLogic";
 
 export type RenouvArtWaitProps = {
   speed?: number;
   mainBallColor?: string;
+  style?: CSSProperties;
 };
 
 export const RenouvArtWait = (props: RenouvArtWaitProps) => {
@@ -17,5 +18,7 @@ export const RenouvArtWait = (props: RenouvArtWaitProps) => {
     };
   }, [canvasRef.current, props]);
 
-  return <canvas width={200} height={200} ref={canvasRef} />;
+  return (
+    <canvas style={props.style} width={200} height={200} ref={canvasRef} />
+  );
 };

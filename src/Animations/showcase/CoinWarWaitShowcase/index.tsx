@@ -1,10 +1,11 @@
-import { Slider } from "@material-ui/core";
+import { Button, Slider } from "@material-ui/core";
 import { useState } from "react";
 import { SketchPicker } from "react-color";
 import { DivVisibility, Showcase } from "..";
-import { RenouvArtWait } from "../../components/wait/RenouvArtWait";
+import { CoinWarWait } from "../../components/wait/CoinWarWait";
+import { SpeedModes } from "../../components/wait/CoinWarWait/CoinWarWaitLogic";
 
-export const RenouvArtWaitShowcase = () => {
+export const CoinWarWaitShowcase = () => {
   const [visible, setVisible] = useState(false);
 
   return (
@@ -13,19 +14,19 @@ export const RenouvArtWaitShowcase = () => {
         className="text-align-center pointer"
         onClick={() => setVisible(!visible)}
       >
-        &lt;RenouvArtWait /&gt;
+        &lt;CoinWarWait /&gt;
       </h2>
       <DivVisibility visible={visible}>
         <h2 className="text-align-center">Some props example</h2>
         <div className="flex wrap justify-center">
           <Showcase description="basic">
-            <RenouvArtWait />
+            <CoinWarWait />
           </Showcase>
-          <Showcase description="linear speed">
-            <RenouvArtWait speed={8} />
+          <Showcase description="other speed mode">
+            <CoinWarWait modes="factory" />
           </Showcase>
-          <Showcase description="main ball color">
-            <RenouvArtWait mainBallColor="black" />
+          <Showcase description="balls / rails color">
+            <CoinWarWait ballsColor="white" railsColor="red" />
           </Showcase>
         </div>
         <h2 className="text-align-center">Interactive example</h2>
@@ -36,31 +37,43 @@ export const RenouvArtWaitShowcase = () => {
 };
 
 const InteractiveExample = () => {
-  const [speed, setSpeed] = useState(5);
-  const [mainBallColor, setMainBallColor] = useState("white");
-  const [size, setSize] = useState(200);
+  const [speedMode, setSpeedMode] = useState<keyof typeof SpeedModes>("normal");
+  const [mainBallColor, setMainBallColor] = useState("green");
+  const [railsColor, setRailsColor] = useState("blue");
+  const [size, setSize] = useState(300);
 
   return (
     <div className="flex wrap justify-center">
       <div className="w-100 flex wrap justify-center">
         <div className="w-20 m-10">
-          <p className="text-align-center">speed</p>
+          <p className="text-align-center">speed modes</p>
           <div className="w-100 flex justify-center">
-            <Slider
-              style={{ width: "100px" }}
-              defaultValue={5}
-              max={40}
-              onChange={(e, newValue) => setSpeed(newValue as number)}
-              aria-label="Default"
-              valueLabelDisplay="auto"
-            />
+            <Button size="small" onClick={() => setSpeedMode("slow")}>
+              slow
+            </Button>
+            <Button size="small" onClick={() => setSpeedMode("normal")}>
+              normal
+            </Button>
+            <Button size="small" onClick={() => setSpeedMode("fast")}>
+              fast
+            </Button>
+            <Button size="small" onClick={() => setSpeedMode("factory")}>
+              factory
+            </Button>
           </div>
         </div>
         <div>
-          <p className="text-align-center">main ball color</p>
+          <p className="text-align-center">balls color</p>
           <SketchPicker
             color={mainBallColor}
             onChangeComplete={(color) => setMainBallColor(color.hex)}
+          />
+        </div>
+        <div>
+          <p className="text-align-center">rails color</p>
+          <SketchPicker
+            color={railsColor}
+            onChangeComplete={(color) => setRailsColor(color.hex)}
           />
         </div>
         <div className="w-20 m-10">
@@ -68,7 +81,7 @@ const InteractiveExample = () => {
           <div className="w-100 flex justify-center">
             <Slider
               style={{ width: "100px" }}
-              defaultValue={200}
+              defaultValue={300}
               max={300}
               min={1}
               onChange={(e, newValue) => setSize(newValue as number)}
@@ -78,13 +91,15 @@ const InteractiveExample = () => {
           </div>
         </div>
       </div>
+
       <div
         className="flex justify-center align-center"
         style={{ minHeight: 350 }}
       >
-        <RenouvArtWait
-          speed={speed}
-          mainBallColor={mainBallColor}
+        <CoinWarWait
+          modes={speedMode}
+          ballsColor={mainBallColor}
+          railsColor={railsColor}
           style={{ width: size, height: size }}
         />
       </div>
